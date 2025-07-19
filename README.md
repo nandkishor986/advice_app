@@ -75,18 +75,6 @@ CI/CD Flow:
 Once deployed, the app is available via an AWS Application Load Balancer.
 URL: Will be using Route53 to create a "A" pointing to Load Balancer DNS. Attaching a SSL certificate to Load Balancer. 
 
-📁 Project Structure:
-
-advice-app/
-├── src/                  # React source code
-├── public/               # Static public assets
-├── Dockerfile            # Docker config
-├── Jenkinsfile           # CI/CD pipeline
-├── .gitignore            # Git exclusions
-├── .dockerignore         # Docker build exclusions
-├── package.json          # Project metadata & scripts
-└── README.md             # Project documentation
-
 📚 Learn More:
 
 React Documentation
