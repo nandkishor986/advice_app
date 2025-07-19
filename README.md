@@ -1,70 +1,100 @@
-# Getting Started with Create React App
+💡 Advice App:
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A simple yet insightful React-based web application that delivers random advice to users.
+This project is containerized with Docker, analyzed using SonarQube for code quality, and deployed to AWS EKS with ArgoCD and an AWS Application Load Balancer.
 
-## Available Scripts
+🚀 Tech Stack:
+
+Frontend: React (Create React App)
+
+CI/CD: Jenkins + ArgoCD
+
+Quality Analysis: SonarQube
+
+Containerization: Docker
+
+Infrastructure: AWS EKS via Terraform
+
+Ingress: AWS ALB with Ingress Controller
+
+🛠️ Getting Started Locally
+To run the project locally:
+
+npm install
+npm start
+
+Then open your browser at http://localhost:3000
+
+📦 Available Scripts:
 
 In the project directory, you can run:
 
-### `npm start`
+Command	Description:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+npm start	-> Starts the development server
+npm test	-> Runs tests in watch mode
+npm run build ->	Builds the app for production
+npm run eject -> Ejects CRA config (irreversible!)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+🔍 Code Quality:
 
-### `npm test`
+This project integrates SonarQube for static code analysis. The analysis is triggered automatically in the Jenkins pipeline after dependencies are installed.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+🐳 Docker:
 
-### `npm run build`
+To build and run the app in a Docker container:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+docker image build -t repo-name/advice-app .
+docker container run -p 3000:3000 --name advice_app advice-app
+docker image push repo-name/advice_app:latest
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+The Docker image is pushed to Docker Hub and later used by the Kubernetes deployment.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+☸️ Deployment:
 
-### `npm run eject`
+CI/CD Flow:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+* Jenkins:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+1. Runs SonarQube analysis
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+2. Builds and pushes Docker image
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+3. Provisions AWS EKS cluster using Terraform (from separate Git repo)
 
-## Learn More
+* ArgoCD:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+1. Monitors Kubernetes manifests
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+2. Deploys app on EKS
 
-### Code Splitting
+3. Manages rollout via Ingress (ALB)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+🌍 Production URL:
 
-### Analyzing the Bundle Size
+Once deployed, the app is available via an AWS Application Load Balancer.
+URL: Will be using Route53 to create a "A" pointing to Load Balancer DNS. Attaching a SSL certificate to Load Balancer. 
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+📁 Project Structure:
 
-### Making a Progressive Web App
+advice-app/
+├── src/                  # React source code
+├── public/               # Static public assets
+├── Dockerfile            # Docker config
+├── Jenkinsfile           # CI/CD pipeline
+├── .gitignore            # Git exclusions
+├── .dockerignore         # Docker build exclusions
+├── package.json          # Project metadata & scripts
+└── README.md             # Project documentation
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+📚 Learn More:
 
-### Advanced Configuration
+React Documentation
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+Create React App Docs
 
-### Deployment
+ArgoCD
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+Terraform EKS Module
 
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+SonarQube
